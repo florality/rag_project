@@ -7,6 +7,9 @@ cd "$ROOT_DIR"
 # 设置Python路径，确保可以导入app模块
 export PYTHONPATH="$ROOT_DIR:$PYTHONPATH"
 
+# 确保/tmp目录存在
+mkdir -p /tmp
+
 # Activate venv if exists
 if [ -d "venv" ]; then
   source venv/bin/activate
@@ -40,7 +43,7 @@ if ps -p $FRONT_PID >/dev/null; then
   FRONT_PORT=$(cat frontend_port.txt 2>/dev/null || true)
   if [ -z "$FRONT_PORT" ]; then
     # 如果文件不存在或为空，则尝试从日志中提取
-    FRONT_PORT=$(grep -o "\[frontend\] running on http://127.0.0.1:[0-9]*" /tmp/resume_frontend.log | tail -n 1 | sed 's/.*http:\/\/127.0.0.1://' || echo "")
+    FRONT_PORT=$(grep -o "\[前端\] 运行在 http://127.0.0.1:[0-9]*" /tmp/resume_frontend.log | tail -n 1 | sed 's/.*http:\/\/127.0.0.1://' || echo "")
     if [ -z "$FRONT_PORT" ]; then
       FRONT_PORT=$(grep -o "http://127.0.0.1:[0-9]*" /tmp/resume_frontend.log | tail -n 1 | sed 's#http://127.0.0.1:##' || echo "")
     fi

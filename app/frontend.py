@@ -2,8 +2,12 @@ import gradio as gr
 import requests
 import json
 import os
+from pathlib import Path
 from loguru import logger
 import time
+
+# 导入find_free_port函数
+from app.port_utils import find_free_port
 
 # 配置日志
 logger.add("frontend.log", rotation="500 MB")
@@ -118,19 +122,6 @@ def call_backend(job_title: str, requirements: str, top_n: int = 10) -> str:
 def build_demo():
     """构建Gradio演示界面"""
     with gr.Blocks(title="智能简历筛选系统") as demo:
-        # 添加Logo
-        logo_path = os.path.join(os.path.dirname(__file__), "..", "logo.png")
-        if os.path.exists(logo_path):
-            gr.Image(
-                image=logo_path,
-                label="",
-                interactive=False,
-                height=100,
-                show_label=False,
-                show_download_button=False,
-                container=False
-            )
-        
         gr.Markdown("# 智能简历筛选系统")
         gr.Markdown("输入岗位名称和要求，系统将自动为您筛选最匹配的候选人。")
         
@@ -180,18 +171,25 @@ def build_demo():
         4. 等待系统处理并查看结果
         
         ### 结果说明
-        - **人才编号**: 候选人在数据集中的行索引
-        - **原始ID**: 候选人在系统中的唯一标识符
+        - **人才编号**: 候选人在人才库中的唯一标识符
         - **得分**: 候选人的综合评分
+        - **经验(年)**: 候选人的工作经验年限
+        - **核心技能**: 候选人在岗位要求中提及的主要技能
+        - **评分理由**: 系统根据岗位要求和候选人简历生成的评分理由
         """)
     
     return demo
 
 # 运行函数
-def run(host="0.0.0.0", port=7860):
-    """运行Gradio前端"""
+def run():
+    port_start = 6060
+    port = find_free_port(port_start)
+    # 修正端口文件写入路径，确保在项目根目录下创建文件
+    port_file_path = Path(__file__).parent.parent / "frontend_port.txt"
+    port_file_path.write_text(str(port), encoding="utf-8")
+    print(f"[前端] 运行在 http://127.0.0.1:{port}")
     demo = build_demo()
-    demo.launch(server_name=host, server_port=port, share=False)
+    demo.launch(server_name="0.0.0.0", server_port=port, show_api=False, share=False)
 
 if __name__ == "__main__":
     run()
