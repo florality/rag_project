@@ -126,3 +126,20 @@
 2025-12-09 21:08:45.848 | INFO     | __main__:call_backend:51 - 后端响应状态码: 200
 2025-12-09 21:08:45.850 | INFO     | __main__:call_backend:65 - 收到 3 个评分结果
 2025-12-09 21:08:45.850 | INFO     | __main__:call_backend:135 - 成功生成结果表格
+2025-12-09 21:26:45.063 | INFO     | __main__:call_backend:40 - 发送请求到后端: http://localhost:8063/score
+2025-12-09 21:26:45.064 | INFO     | __main__:call_backend:41 - 请求数据: {'job_title': '高级数据科学家', 'requirements': '岗位: 高级数据科学家\n要求:\n1. 5年以上数据科学相关经验\n2. 精通Python和机器学习库\n3. 有深度学习项目经验\n4. 良好的沟通能力\n5. 熟悉大数据处理技术\n6. 有团队管理经验者优先', 'top_n': 2}
+2025-12-09 21:36:56.058 | INFO     | __main__:call_backend:40 - 发送请求到后端: http://localhost:8064/score
+2025-12-09 21:36:56.059 | INFO     | __main__:call_backend:41 - 请求数据: {'job_title': '高级数据科学家', 'requirements': '岗位: 高级数据科学家\n要求:\n1. 5年以上数据科学相关经验\n2. 精通Python和机器学习库\n3. 有深度学习项目经验\n4. 良好的沟通能力\n5. 熟悉大数据处理技术\n6. 有团队管理经验者优先', 'top_n': 4}
+2025-12-09 21:37:46.856 | INFO     | __main__:call_backend:51 - 后端响应状态码: 200
+2025-12-09 21:37:46.860 | INFO     | __main__:call_backend:65 - 收到 4 个评分结果
+2025-12-09 21:37:46.862 | INFO     | __main__:call_backend:135 - 成功生成结果表格
+2025-12-09 22:07:52.602 | INFO     | __main__:call_backend:40 - 发送请求到后端: http://localhost:8064/score
+2025-12-09 22:07:52.603 | INFO     | __main__:call_backend:41 - 请求数据: {'job_title': '高级数据科学家', 'requirements': '岗位: 高级数据科学家\n要求:\n1. 5年以上数据科学相关经验\n2. 精通Python和机器学习库\n3. 有深度学习项目经验\n4. 良好的沟通能力\n5. 熟悉大数据处理技术\n6. 有团队管理经验者优先', 'top_n': 10}
+2025-12-09 22:09:01.828 | INFO     | __main__:call_backend:51 - 后端响应状态码: 200
+2025-12-09 22:09:01.854 | INFO     | __main__:call_backend:65 - 收到 6 个评分结果
+2025-12-09 22:09:01.856 | INFO     | __main__:call_backend:135 - 成功生成结果表格
+2025-12-09 22:14:39.489 | INFO     | __main__:call_backend:40 - 发送请求到后端: http://localhost:8064/score
+2025-12-09 22:14:39.495 | INFO     | __main__:call_backend:41 - 请求数据: {'job_title': 'nodejs全栈开发工程师', 'requirements': '职位介绍\n你将负责：\n1、多租户管理系统的全栈开发；\n2、多租户管理系统的运维工作；\n3、AI智能体开发，实现自动运维。\n\n职位要求（必备）：\n1、本科及以上学历， 5年及以上全栈开发经验，熟练使用 nodejs + express；\n2、熟练使用 nodejs + react；\n3、 熟练使用 postgres；\n4、能够使用claude code, cursor, cline编程；\n5、理解 k8s 工作机制；\n6、加分项： golang + frp；\n7、优秀的学习能力、抗压能力和沟通能力，工作积极主动，具备强烈的责任心和团队协作精神。\n其他信息\n行业要求：全部行业', 'top_n': 4}
+2025-12-09 22:15:21.675 | INFO     | __main__:call_backend:51 - 后端响应状态码: 200
+2025-12-09 22:15:21.682 | INFO     | __main__:call_backend:65 - 收到 4 个评分结果
+2025-12-09 22:15:21.683 | INFO     | __main__:call_backend:135 - 成功生成结果表格
