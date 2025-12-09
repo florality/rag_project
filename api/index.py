@@ -10,11 +10,10 @@ project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
 # 导入现有的应用组件
-from app.backend import create_app as create_backend_app
-from app.frontend import build_demo
+from app.backend import create_app
 
-# 创建FastAPI应用
-app = create_backend_app()
+# 创建应用实例
+app = create_app()
 
 # 添加CORS中间件以允许跨域请求
 app.add_middleware(
@@ -26,14 +25,22 @@ app.add_middleware(
 )
 
 # 创建Gradio界面
-demo = build_demo()
-
-# 将Gradio界面挂载为FastAPI的一个路由
-app = gr.mount_gradio_app(app, demo, path="/")
+try:
+    from app.frontend import build_demo
+    demo = build_demo()
+    # 将Gradio界面挂载为FastAPI的一个路由
+    app = gr.mount_gradio_app(app, demo, path="/")
+except Exception as e:
+    print(f"Warning: Could not mount Gradio app: {e}")
 
 @app.get("/")
 async def root():
     return {"message": "简历筛选助手API"}
+
+# Vercel Serverless Function handler
+def handler(request, response):
+    """Vercel Serverless Function入口点"""
+    return app(request, response)
 
 if __name__ == "__main__":
     import uvicorn
