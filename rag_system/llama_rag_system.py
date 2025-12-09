@@ -17,6 +17,7 @@ load_dotenv()
 from llama_index.core import Document, Settings
 from llama_index.core.node_parser import SentenceSplitter
 from langchain_openai import OpenAIEmbeddings, ChatOpenAI
+from langchain_community.embeddings import HuggingFaceEmbeddings
 from openai import OpenAI
 from langchain_community.retrievers import BM25Retriever
 
@@ -46,9 +47,9 @@ class SimpleRAG:
         self.cross_encoder = None
 
         # 获取API配置
-        self.api_key = os.getenv("OPENAI_API_KEY") or os.getenv("Gemini_Api_Key")
-        self.base_url = os.getenv("OPENAI_BASE_URL") or os.getenv("Gemini_Base_Url")
-        self.model_name = os.getenv("OPENAI_MODEL") or os.getenv("Gemini_Model_Name") or "gpt-3.5-turbo"
+        self.api_key = os.getenv("Gemini_Api_Key")
+        self.base_url = os.getenv("Gemini_Base_Url")
+        self.model_name =os.getenv("Gemini_Model_Name") 
 
         if not self.api_key:
             print("警告: 未找到API Key，将使用本地模型")
@@ -76,18 +77,33 @@ class SimpleRAG:
 
             self.llm = ChatOpenAI(**llm_kwargs)
 
-            # 初始化嵌入模型
-            embedding_kwargs = {
-                "model":os.getenv("EMBEDDING_MODEL_NAME")
-            }
-
-            if self.api_key:
-                embedding_kwargs["openai_api_key"] = self.api_key
-                if self.base_url:
-                    embedding_kwargs["openai_api_base"] = self.base_url
-
-            self.embeddings = OpenAIEmbeddings(**embedding_kwargs)
-
+            # 初始化嵌入模型：默认直接使用 HuggingFace 模型（无需本地服务）
+            hf_model = os.getenv("HF_EMBEDDING_MODEL") or "sentence-transformers/all-MiniLM-L6-v2"
+            try:
+                self.embeddings = HuggingFaceEmbeddings(model_name=hf_model)
+                print(f"[embedding] 使用 HuggingFace 模型: {hf_model}")
+            except Exception as hf_exc:
+                import traceback
+                print(f"[embedding] HuggingFaceEmbeddings 初始化失败: {repr(hf_exc)}")
+                traceback.print_exc()
+                # 可选远端回退：仅当显式开启 USE_REMOTE_EMBEDDING
+                use_remote = (os.getenv("USE_REMOTE_EMBEDDING") or "").lower() == "true"
+                if not use_remote:
+                    raise
+                embedding_model = os.getenv("EMBEDDING_MODEL_NAME") or "text-embedding-3-small"
+                try:
+                    embedding_kwargs = {"model": embedding_model}
+                    if self.api_key:
+                        embedding_kwargs["openai_api_key"] = self.api_key
+                        if self.base_url:
+                            embedding_kwargs["openai_api_base"] = self.base_url
+                    self.embeddings = OpenAIEmbeddings(**embedding_kwargs)
+                    print(f"[embedding] 回退使用远端嵌入模型: {embedding_model}")
+                except Exception as embed_exc:
+                    print(f"[embedding] 远端嵌入初始化仍失败: {repr(embed_exc)}")
+                    traceback.print_exc()
+                    raise
+                
             # 尝试初始化交叉编码器（可选）
             try:
                 self.cross_encoder = CrossEncoder('cross-encoder/ms-marco-MiniLM-L-6-v2')
@@ -162,6 +178,9 @@ class SimpleRAG:
             print(f"第一个文档内容预览: {self.documents[0].page_content[:200]}...")
             print(f"第一个文档元数据: {self.documents[0].metadata}")
 
+            # 为混合检索准备统一的k，至少为1
+            k = max(1, min(self.top_n, len(self.documents)))
+
             # 1. 构建向量检索器 - 每个文档独立embedding
             print("正在构建向量索引（按行embedding）...")
             vectorstore = FAISS.from_documents(
@@ -169,7 +188,7 @@ class SimpleRAG:
                 embedding=self.embeddings
             )
             vector_retriever = vectorstore.as_retriever(
-                search_kwargs={"k": min(8, len(self.documents))}
+                search_kwargs={"k": k}
             )
             print("向量索引构建完成")
 
@@ -178,13 +197,13 @@ class SimpleRAG:
             bm25_retriever = BM25Retriever.from_documents(
                 self.documents
             )
-            bm25_retriever.k = min(8, len(self.documents))
+            bm25_retriever.k = k
             print("BM25检索器构建完成")
 
             # 3. 组合检索器
             self.retriever = EnsembleRetriever(
                 retrievers=[vector_retriever, bm25_retriever],
-                weights=[0.5, 0.5]
+                weights=[0.6, 0.4]
             )
 
             print("混合检索器构建完成")

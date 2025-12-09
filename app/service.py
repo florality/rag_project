@@ -222,12 +222,29 @@ def score_from_dataset(job_title: str, requirements: str, top_n: int, cfg: Agent
             query = f"{job_title} {requirements}"
             score_results = rag_system.score_candidates(query, requirements, top_k=top_n)
             
+            # 添加类型检查和安全处理
+            if not isinstance(score_results, list):
+                logger.error(f"RAG系统返回了非列表类型: {type(score_results)}")
+                # 回退到原来的方法
+                return _fallback_to_original_method(job_title, requirements, top_n, cfg)
+            
             results: List[Dict[str, Any]] = []
             for i, score_result in enumerate(score_results):
+                # 检查每个结果是否为字典类型
+                if not isinstance(score_result, dict):
+                    logger.warning(f"第 {i+1} 个结果不是字典类型: {type(score_result)}，跳过")
+                    continue
+                
+                # 安全地获取candidate_info
+                candidate_info = score_result.get("candidate_info", {})
+                if not isinstance(candidate_info, dict):
+                    candidate_info = {}
+                
                 # 构造符合前端展示要求的结构化结果
                 result = {
+                    "candidate_info": candidate_info,  # 添加candidate_info字段
                     "plan": {
-                        "normalized_resume": score_result.get("candidate_info", {}).get("content", "")[:200] + "..." if len(score_result.get("candidate_info", {}).get("content", "")) > 200 else score_result.get("candidate_info", {}).get("content", "")
+                        "normalized_resume": candidate_info.get("content", "")[:200] + "..." if len(candidate_info.get("content", "")) > 200 else candidate_info.get("content", "")
                     },
                     "parsed_resume": {
                         "name": "未知",
@@ -250,22 +267,33 @@ def score_from_dataset(job_title: str, requirements: str, top_n: int, cfg: Agent
                 }
                 results.append(result)
             
-            # 按综合评分排序
-            results.sort(
-                key=lambda r: r.get("report", {})
-                .get("ordered_scores", [{}])[0]
-                .get("score", 0),
-                reverse=True,
-            )
-            
-            logger.info(f"评分完成，返回前 {top_n} 个结果")
-            return results[:top_n]
+            if results:
+                # 按综合评分排序
+                results.sort(
+                    key=lambda r: r.get("report", {})
+                    .get("ordered_scores", [{}])[0]
+                    .get("score", 0),
+                    reverse=True,
+                )
+                
+                logger.info(f"RAG评分完成，返回前 {top_n} 个结果")
+                return results[:top_n]
+            else:
+                logger.warning("RAG系统未返回有效结果，回退到原始方法")
+                return _fallback_to_original_method(job_title, requirements, top_n, cfg)
             
         except Exception as e:
             logger.error(f"使用RAG系统评分数据集失败: {e}", exc_info=True)
+            return _fallback_to_original_method(job_title, requirements, top_n, cfg)
     
     # 如果RAG系统不可用或评分失败，回退到原来的方法
-    logger.warning("回退到原来的数据集评分方法")
+    logger.warning("RAG系统不可用，回退到原来的数据集评分方法")
+    return _fallback_to_original_method(job_title, requirements, top_n, cfg)
+
+
+def _fallback_to_original_method(job_title: str, requirements: str, top_n: int, cfg: AgentConfig) -> List[Dict[str, Any]]:
+    """回退到原始的数据集评分方法"""
+    logger.info("使用回退方法进行评分")
     query = f"{job_title} {requirements}"
     candidates = search_resumes(query, top_k=max(top_n * 2, top_n))  # 取更大的池子再排序
     logger.info(f"找到 {len(candidates)} 个候选简历")
@@ -286,12 +314,12 @@ def score_from_dataset(job_title: str, requirements: str, top_n: int, cfg: Agent
             logger.error(f"处理候选人 {i} 失败: {e}", exc_info=True)
             # 即使某个候选人处理失败，也继续处理下一个
     
-    # 按 summary_score 排序
+    # 按综合评分排序
     results.sort(
         key=lambda r: r.get("report", {})
         .get("ordered_scores", [{}])[0]
         .get("score", 0),
         reverse=True,
     )
-    logger.info(f"评分完成，返回前 {top_n} 个结果")
+    logger.info(f"回退方法评分完成，返回前 {top_n} 个结果")
     return results[:top_n]

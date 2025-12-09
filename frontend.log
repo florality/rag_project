@@ -1,0 +1,123 @@
+2025-12-09 05:05:59.970 | INFO     | __main__:call_backend:28 - 发送请求到后端: http://localhost:8000/score
+2025-12-09 05:05:59.970 | INFO     | __main__:call_backend:29 - 请求数据: {'job_title': '高级数据科学家', 'requirements': '岗位: 高级数据科学家\n要求:\n1. 5年以上数据科学相关经验\n2. 精通Python和机器学习库\n3. 有深度学习项目经验\n4. 良好的沟通能力', 'top_n': 10}
+2025-12-09 05:05:59.977 | ERROR    | __main__:call_backend:118 - 调用后端时发生异常: HTTPConnectionPool(host='localhost', port=8000): Max retries exceeded with url: /score (Caused by NewConnectionError("HTTPConnection(host='localhost', port=8000): Failed to establish a new connection: [Errno 61] Connection refused"))
+2025-12-09 05:06:01.754 | INFO     | __main__:call_backend:28 - 发送请求到后端: http://localhost:8000/score
+2025-12-09 05:06:01.755 | INFO     | __main__:call_backend:29 - 请求数据: {'job_title': '高级数据科学家', 'requirements': '岗位: 高级数据科学家\n要求:\n1. 5年以上数据科学相关经验\n2. 精通Python和机器学习库\n3. 有深度学习项目经验\n4. 良好的沟通能力', 'top_n': 10}
+2025-12-09 05:06:01.759 | ERROR    | __main__:call_backend:118 - 调用后端时发生异常: HTTPConnectionPool(host='localhost', port=8000): Max retries exceeded with url: /score (Caused by NewConnectionError("HTTPConnection(host='localhost', port=8000): Failed to establish a new connection: [Errno 61] Connection refused"))
+2025-12-09 05:06:02.267 | INFO     | __main__:call_backend:28 - 发送请求到后端: http://localhost:8000/score
+2025-12-09 05:06:02.267 | INFO     | __main__:call_backend:29 - 请求数据: {'job_title': '高级数据科学家', 'requirements': '岗位: 高级数据科学家\n要求:\n1. 5年以上数据科学相关经验\n2. 精通Python和机器学习库\n3. 有深度学习项目经验\n4. 良好的沟通能力', 'top_n': 10}
+2025-12-09 05:06:02.272 | ERROR    | __main__:call_backend:118 - 调用后端时发生异常: HTTPConnectionPool(host='localhost', port=8000): Max retries exceeded with url: /score (Caused by NewConnectionError("HTTPConnection(host='localhost', port=8000): Failed to establish a new connection: [Errno 61] Connection refused"))
+2025-12-09 05:06:16.871 | INFO     | __main__:call_backend:28 - 发送请求到后端: http://localhost:8000/score
+2025-12-09 05:06:16.873 | INFO     | __main__:call_backend:29 - 请求数据: {'job_title': '高级数据科学家', 'requirements': '岗位: 高级数据科学家\n要求:\n1. 5年以上数据科学相关经验\n2. 精通Python和机器学习库\n3. 有深度学习项目经验\n4. 良好的沟通能力', 'top_n': 10}
+2025-12-09 05:06:16.877 | ERROR    | __main__:call_backend:118 - 调用后端时发生异常: HTTPConnectionPool(host='localhost', port=8000): Max retries exceeded with url: /score (Caused by NewConnectionError("HTTPConnection(host='localhost', port=8000): Failed to establish a new connection: [Errno 61] Connection refused"))
+2025-12-09 05:06:17.584 | INFO     | __main__:call_backend:28 - 发送请求到后端: http://localhost:8000/score
+2025-12-09 05:06:17.585 | INFO     | __main__:call_backend:29 - 请求数据: {'job_title': '高级数据科学家', 'requirements': '岗位: 高级数据科学家\n要求:\n1. 5年以上数据科学相关经验\n2. 精通Python和机器学习库\n3. 有深度学习项目经验\n4. 良好的沟通能力', 'top_n': 10}
+2025-12-09 05:06:17.587 | ERROR    | __main__:call_backend:118 - 调用后端时发生异常: HTTPConnectionPool(host='localhost', port=8000): Max retries exceeded with url: /score (Caused by NewConnectionError("HTTPConnection(host='localhost', port=8000): Failed to establish a new connection: [Errno 61] Connection refused"))
+2025-12-09 05:06:23.344 | INFO     | __main__:call_backend:28 - 发送请求到后端: http://localhost:8000/score
+2025-12-09 05:06:23.344 | INFO     | __main__:call_backend:29 - 请求数据: {'job_title': '高级数据科学家', 'requirements': '岗位: 高级数据科学家\n要求:\n1. 5年以上数据科学相关经验\n2. 精通Python和机器学习库\n3. 有深度学习项目经验\n4. 良好的沟通能力', 'top_n': 10}
+2025-12-09 05:06:23.348 | ERROR    | __main__:call_backend:118 - 调用后端时发生异常: HTTPConnectionPool(host='localhost', port=8000): Max retries exceeded with url: /score (Caused by NewConnectionError("HTTPConnection(host='localhost', port=8000): Failed to establish a new connection: [Errno 61] Connection refused"))
+2025-12-09 05:06:34.389 | INFO     | __main__:call_backend:28 - 发送请求到后端: http://localhost:8000/score
+2025-12-09 05:06:34.391 | INFO     | __main__:call_backend:29 - 请求数据: {'job_title': '高级数据科学家', 'requirements': '岗位: 高级数据科学家\n要求:\n1. 5年以上数据科学相关经验\n2. 精通Python和机器学习库\n3. 有深度学习项目经验\n4. 良好的沟通能力', 'top_n': 10}
+2025-12-09 05:06:34.394 | ERROR    | __main__:call_backend:118 - 调用后端时发生异常: HTTPConnectionPool(host='localhost', port=8000): Max retries exceeded with url: /score (Caused by NewConnectionError("HTTPConnection(host='localhost', port=8000): Failed to establish a new connection: [Errno 61] Connection refused"))
+2025-12-09 05:06:35.364 | INFO     | __main__:call_backend:28 - 发送请求到后端: http://localhost:8000/score
+2025-12-09 05:06:35.365 | INFO     | __main__:call_backend:29 - 请求数据: {'job_title': '高级数据科学家', 'requirements': '岗位: 高级数据科学家\n要求:\n1. 5年以上数据科学相关经验\n2. 精通Python和机器学习库\n3. 有深度学习项目经验\n4. 良好的沟通能力', 'top_n': 10}
+2025-12-09 05:06:35.371 | ERROR    | __main__:call_backend:118 - 调用后端时发生异常: HTTPConnectionPool(host='localhost', port=8000): Max retries exceeded with url: /score (Caused by NewConnectionError("HTTPConnection(host='localhost', port=8000): Failed to establish a new connection: [Errno 61] Connection refused"))
+2025-12-09 12:15:19.847 | INFO     | __main__:call_backend:28 - 发送请求到后端: http://localhost:8000/score
+2025-12-09 12:15:19.848 | INFO     | __main__:call_backend:29 - 请求数据: {'job_title': '高级数据科学家', 'requirements': '岗位: 高级数据科学家\n要求:\n1. 5年以上数据科学相关经验\n2. 精通Python和机器学习库\n3. 有深度学习项目经验\n4. 良好的沟通能力', 'top_n': 3}
+2025-12-09 12:15:19.853 | ERROR    | __main__:call_backend:118 - 调用后端时发生异常: HTTPConnectionPool(host='localhost', port=8000): Max retries exceeded with url: /score (Caused by NewConnectionError("HTTPConnection(host='localhost', port=8000): Failed to establish a new connection: [Errno 61] Connection refused"))
+2025-12-09 12:26:10.294 | INFO     | __main__:call_backend:28 - 发送请求到后端: http://localhost:8000/score
+2025-12-09 12:26:10.294 | INFO     | __main__:call_backend:29 - 请求数据: {'job_title': '高级数据科学家', 'requirements': '岗位: 高级数据科学家\n要求:\n1. 5年以上数据科学相关经验\n2. 精通Python和机器学习库\n3. 有深度学习项目经验\n4. 良好的沟通能力', 'top_n': 3}
+2025-12-09 12:26:10.297 | ERROR    | __main__:call_backend:118 - 调用后端时发生异常: HTTPConnectionPool(host='localhost', port=8000): Max retries exceeded with url: /score (Caused by NewConnectionError("HTTPConnection(host='localhost', port=8000): Failed to establish a new connection: [Errno 61] Connection refused"))
+2025-12-09 12:27:42.104 | INFO     | __main__:call_backend:28 - 发送请求到后端: http://localhost:8000/score
+2025-12-09 12:27:42.104 | INFO     | __main__:call_backend:29 - 请求数据: {'job_title': '高级数据科学家', 'requirements': '岗位: 高级数据科学家\n要求:\n1. 5年以上数据科学相关经验\n2. 精通Python和机器学习库\n3. 有深度学习项目经验\n4. 良好的沟通能力', 'top_n': 3}
+2025-12-09 12:27:42.106 | ERROR    | __main__:call_backend:118 - 调用后端时发生异常: HTTPConnectionPool(host='localhost', port=8000): Max retries exceeded with url: /score (Caused by NewConnectionError("HTTPConnection(host='localhost', port=8000): Failed to establish a new connection: [Errno 61] Connection refused"))
+2025-12-09 12:31:52.484 | INFO     | __main__:call_backend:40 - 发送请求到后端: http://localhost:8043/score
+2025-12-09 12:31:52.485 | INFO     | __main__:call_backend:41 - 请求数据: {'job_title': '高级数据科学家', 'requirements': '岗位: 高级数据科学家\n要求:\n1. 5年以上数据科学相关经验\n2. 精通Python和机器学习库\n3. 有深度学习项目经验\n4. 良好的沟通能力', 'top_n': 3}
+2025-12-09 12:36:52.499 | ERROR    | __main__:call_backend:130 - 调用后端时发生异常: HTTPConnectionPool(host='localhost', port=8043): Read timed out. (read timeout=300)
+2025-12-09 12:43:50.991 | INFO     | __main__:call_backend:40 - 发送请求到后端: http://localhost:8044/score
+2025-12-09 12:43:50.991 | INFO     | __main__:call_backend:41 - 请求数据: {'job_title': '高级数据科学家', 'requirements': '岗位: 高级数据科学家\n要求:\n1. 5年以上数据科学相关经验\n2. 精通Python和机器学习库\n3. 有深度学习项目经验\n4. 良好的沟通能力', 'top_n': 3}
+2025-12-09 12:44:31.368 | INFO     | __main__:call_backend:51 - 后端响应状态码: 200
+2025-12-09 12:44:31.369 | INFO     | __main__:call_backend:55 - 收到 1 个评分结果
+2025-12-09 12:44:31.369 | ERROR    | __main__:call_backend:130 - 调用后端时发生异常: 'str' object has no attribute 'get'
+2025-12-09 12:49:01.254 | INFO     | __main__:call_backend:40 - 发送请求到后端: http://localhost:8044/score
+2025-12-09 12:49:01.255 | INFO     | __main__:call_backend:41 - 请求数据: {'job_title': '高级数据科学家', 'requirements': '岗位: 高级数据科学家\n要求:\n1. 5年以上数据科学相关经验\n2. 精通Python和机器学习库\n3. 有深度学习项目经验\n4. 良好的沟通能力', 'top_n': 2}
+2025-12-09 12:49:34.655 | INFO     | __main__:call_backend:51 - 后端响应状态码: 200
+2025-12-09 12:49:34.656 | INFO     | __main__:call_backend:55 - 收到 1 个评分结果
+2025-12-09 12:49:34.656 | ERROR    | __main__:call_backend:130 - 调用后端时发生异常: 'str' object has no attribute 'get'
+2025-12-09 14:26:49.884 | INFO     | __main__:call_backend:40 - 发送请求到后端: http://localhost:8044/score
+2025-12-09 14:26:49.884 | INFO     | __main__:call_backend:41 - 请求数据: {'job_title': '高级数据科学家', 'requirements': '岗位: 高级数据科学家\n要求:\n1. 5年以上数据科学相关经验\n2. 精通Python和机器学习库\n3. 有深度学习项目经验\n4. 良好的沟通能力', 'top_n': 3}
+2025-12-09 14:27:28.483 | INFO     | __main__:call_backend:51 - 后端响应状态码: 200
+2025-12-09 14:27:28.485 | INFO     | __main__:call_backend:55 - 收到 1 个评分结果
+2025-12-09 14:27:28.485 | ERROR    | __main__:call_backend:130 - 调用后端时发生异常: 'str' object has no attribute 'get'
+2025-12-09 14:49:05.474 | INFO     | __main__:call_backend:40 - 发送请求到后端: http://localhost:8044/score
+2025-12-09 14:49:05.475 | INFO     | __main__:call_backend:41 - 请求数据: {'job_title': '高级数据科学家', 'requirements': '岗位: 高级数据科学家\n要求:\n1. 5年以上数据科学相关经验\n2. 精通Python和机器学习库\n3. 有深度学习项目经验\n4. 良好的沟通能力', 'top_n': 2}
+2025-12-09 14:49:39.168 | INFO     | __main__:call_backend:51 - 后端响应状态码: 200
+2025-12-09 14:49:39.170 | INFO     | __main__:call_backend:65 - 收到 2 个评分结果
+2025-12-09 14:49:39.170 | INFO     | __main__:call_backend:131 - 成功生成结果表格
+2025-12-09 14:57:36.627 | INFO     | __main__:call_backend:40 - 发送请求到后端: http://localhost:8044/score
+2025-12-09 14:57:36.627 | INFO     | __main__:call_backend:41 - 请求数据: {'job_title': '高级数据科学家', 'requirements': '岗位: 高级数据科学家\n要求:\n1. 5年以上数据科学相关经验\n2. 精通Python和机器学习库\n3. 有深度学习项目经验\n4. 良好的沟通能力', 'top_n': 2}
+2025-12-09 15:00:07.412 | INFO     | __main__:call_backend:40 - 发送请求到后端: http://localhost:8045/score
+2025-12-09 15:00:07.413 | INFO     | __main__:call_backend:41 - 请求数据: {'job_title': '高级数据科学家', 'requirements': '岗位: 高级数据科学家\n要求:\n1. 5年以上数据科学相关经验\n2. 精通Python和机器学习库\n3. 有深度学习项目经验\n4. 良好的沟通能力', 'top_n': 3}
+2025-12-09 15:05:52.336 | INFO     | __main__:call_backend:40 - 发送请求到后端: http://localhost:8046/score
+2025-12-09 15:05:52.337 | INFO     | __main__:call_backend:41 - 请求数据: {'job_title': '高级数据科学家', 'requirements': '岗位: 高级数据科学家\n要求:\n1. 5年以上数据科学相关经验\n2. 精通Python和机器学习库\n3. 有深度学习项目经验\n4. 良好的沟通能力', 'top_n': 3}
+2025-12-09 15:09:21.353 | INFO     | __main__:call_backend:40 - 发送请求到后端: http://localhost:8047/score
+2025-12-09 15:09:21.354 | INFO     | __main__:call_backend:41 - 请求数据: {'job_title': '高级数据科学家', 'requirements': '岗位: 高级数据科学家\n要求:\n1. 5年以上数据科学相关经验\n2. 精通Python和机器学习库\n3. 有深度学习项目经验\n4. 良好的沟通能力', 'top_n': 2}
+2025-12-09 15:15:33.710 | INFO     | __main__:call_backend:40 - 发送请求到后端: http://localhost:8048/score
+2025-12-09 15:15:33.710 | INFO     | __main__:call_backend:41 - 请求数据: {'job_title': '高级数据科学家', 'requirements': '岗位: 高级数据科学家\n要求:\n1. 5年以上数据科学相关经验\n2. 精通Python和机器学习库\n3. 有深度学习项目经验\n4. 良好的沟通能力', 'top_n': 2}
+2025-12-09 15:21:20.790 | INFO     | __main__:call_backend:40 - 发送请求到后端: http://localhost:8049/score
+2025-12-09 15:21:20.791 | INFO     | __main__:call_backend:41 - 请求数据: {'job_title': '高级数据科学家', 'requirements': '岗位: 高级数据科学家\n要求:\n1. 5年以上数据科学相关经验\n2. 精通Python和机器学习库\n3. 有深度学习项目经验\n4. 良好的沟通能力', 'top_n': 4}
+2025-12-09 15:26:20.799 | ERROR    | __main__:call_backend:142 - 调用后端时发生异常: HTTPConnectionPool(host='localhost', port=8049): Read timed out. (read timeout=300)
+2025-12-09 15:29:03.795 | INFO     | __main__:call_backend:40 - 发送请求到后端: http://localhost:8050/score
+2025-12-09 15:29:03.796 | INFO     | __main__:call_backend:41 - 请求数据: {'job_title': '高级数据科学家', 'requirements': '岗位: 高级数据科学家\n要求:\n1. 5年以上数据科学相关经验\n2. 精通Python和机器学习库\n3. 有深度学习项目经验\n4. 良好的沟通能力', 'top_n': 4}
+2025-12-09 15:29:27.607 | INFO     | __main__:call_backend:51 - 后端响应状态码: 200
+2025-12-09 15:29:27.611 | INFO     | __main__:call_backend:65 - 收到 4 个评分结果
+2025-12-09 15:29:27.612 | INFO     | __main__:call_backend:133 - 成功生成结果表格
+2025-12-09 15:33:00.307 | INFO     | __main__:call_backend:40 - 发送请求到后端: http://localhost:8051/score
+2025-12-09 15:33:00.309 | INFO     | __main__:call_backend:41 - 请求数据: {'job_title': '高级数据科学家', 'requirements': '岗位: 高级数据科学家\n要求:\n1. 5年以上数据科学相关经验\n2. 精通Python和机器学习库\n3. 有深度学习项目经验\n4. 良好的沟通能力', 'top_n': 2}
+2025-12-09 15:33:15.067 | INFO     | __main__:call_backend:51 - 后端响应状态码: 200
+2025-12-09 15:33:15.069 | INFO     | __main__:call_backend:65 - 收到 2 个评分结果
+2025-12-09 15:33:15.070 | INFO     | __main__:call_backend:170 - 成功生成结果表格
+2025-12-09 17:27:08.081 | INFO     | __main__:call_backend:40 - 发送请求到后端: http://localhost:8052/score
+2025-12-09 17:27:08.081 | INFO     | __main__:call_backend:41 - 请求数据: {'job_title': '高级数据科学家', 'requirements': '岗位: 高级数据科学家\n要求:\n1. 5年以上数据科学相关经验\n2. 精通Python和机器学习库\n3. 有深度学习项目经验\n4. 良好的沟通能力', 'top_n': 3}
+2025-12-09 17:28:08.728 | INFO     | __main__:call_backend:40 - 发送请求到后端: http://localhost:8053/score
+2025-12-09 17:28:08.728 | INFO     | __main__:call_backend:41 - 请求数据: {'job_title': '高级数据科学家', 'requirements': '岗位: 高级数据科学家\n要求:\n1. 5年以上数据科学相关经验\n2. 精通Python和机器学习库\n3. 有深度学习项目经验\n4. 良好的沟通能力', 'top_n': 2}
+2025-12-09 17:28:43.829 | INFO     | __main__:call_backend:51 - 后端响应状态码: 200
+2025-12-09 17:28:43.830 | INFO     | __main__:call_backend:65 - 收到 2 个评分结果
+2025-12-09 17:28:43.830 | INFO     | __main__:call_backend:178 - 成功生成结果表格
+2025-12-09 18:32:39.764 | INFO     | __main__:call_backend:40 - 发送请求到后端: http://localhost:8053/score
+2025-12-09 18:32:39.765 | INFO     | __main__:call_backend:41 - 请求数据: {'job_title': '高级数据科学家', 'requirements': '岗位: 高级数据科学家\n要求:\n1. 5年以上数据科学相关经验\n2. 精通Python和机器学习库\n3. 有深度学习项目经验\n4. 良好的沟通能力', 'top_n': 4}
+2025-12-09 18:34:33.205 | INFO     | __main__:call_backend:40 - 发送请求到后端: http://localhost:8054/score
+2025-12-09 18:34:33.205 | INFO     | __main__:call_backend:41 - 请求数据: {'job_title': '高级数据科学家', 'requirements': '岗位: 高级数据科学家\n要求:\n1. 5年以上数据科学相关经验\n2. 精通Python和机器学习库\n3. 有深度学习项目经验\n4. 良好的沟通能力', 'top_n': 4}
+2025-12-09 18:37:45.522 | INFO     | __main__:call_backend:40 - 发送请求到后端: http://localhost:8055/score
+2025-12-09 18:37:45.522 | INFO     | __main__:call_backend:41 - 请求数据: {'job_title': '高级数据科学家', 'requirements': '岗位: 高级数据科学家\n要求:\n1. 5年以上数据科学相关经验\n2. 精通Python和机器学习库\n3. 有深度学习项目经验\n4. 良好的沟通能力', 'top_n': 3}
+2025-12-09 18:42:11.877 | INFO     | __main__:call_backend:40 - 发送请求到后端: http://localhost:8056/score
+2025-12-09 18:42:11.878 | INFO     | __main__:call_backend:41 - 请求数据: {'job_title': '高级数据科学家', 'requirements': '岗位: 高级数据科学家\n要求:\n1. 5年以上数据科学相关经验\n2. 精通Python和机器学习库\n3. 有深度学习项目经验\n4. 良好的沟通能力', 'top_n': 4}
+2025-12-09 18:44:10.013 | INFO     | __main__:call_backend:40 - 发送请求到后端: http://localhost:8057/score
+2025-12-09 18:44:10.013 | INFO     | __main__:call_backend:41 - 请求数据: {'job_title': '高级数据科学家', 'requirements': '岗位: 高级数据科学家\n要求:\n1. 5年以上数据科学相关经验\n2. 精通Python和机器学习库\n3. 有深度学习项目经验\n4. 良好的沟通能力', 'top_n': 4}
+2025-12-09 18:49:10.024 | ERROR    | __main__:call_backend:142 - 调用后端时发生异常: HTTPConnectionPool(host='localhost', port=8057): Read timed out. (read timeout=300)
+2025-12-09 18:51:18.302 | INFO     | __main__:call_backend:40 - 发送请求到后端: http://localhost:8058/score
+2025-12-09 18:51:18.303 | INFO     | __main__:call_backend:41 - 请求数据: {'job_title': '高级数据科学家', 'requirements': '岗位: 高级数据科学家\n要求:\n1. 5年以上数据科学相关经验\n2. 精通Python和机器学习库\n3. 有深度学习项目经验\n4. 良好的沟通能力', 'top_n': 2}
+2025-12-09 18:54:31.751 | INFO     | __main__:call_backend:40 - 发送请求到后端: http://localhost:8059/score
+2025-12-09 18:54:31.752 | INFO     | __main__:call_backend:41 - 请求数据: {'job_title': '高级数据科学家', 'requirements': '岗位: 高级数据科学家\n要求:\n1. 5年以上数据科学相关经验\n2. 精通Python和机器学习库\n3. 有深度学习项目经验\n4. 良好的沟通能力', 'top_n': 4}
+2025-12-09 18:59:02.644 | INFO     | __main__:call_backend:40 - 发送请求到后端: http://localhost:8061/score
+2025-12-09 18:59:02.645 | INFO     | __main__:call_backend:41 - 请求数据: {'job_title': '高级数据科学家', 'requirements': '岗位: 高级数据科学家\n要求:\n1. 5年以上数据科学相关经验\n2. 精通Python和机器学习库\n3. 有深度学习项目经验\n4. 良好的沟通能力', 'top_n': 4}
+2025-12-09 18:59:39.914 | INFO     | __main__:call_backend:51 - 后端响应状态码: 200
+2025-12-09 18:59:39.915 | INFO     | __main__:call_backend:65 - 收到 4 个评分结果
+2025-12-09 18:59:39.915 | INFO     | __main__:call_backend:133 - 成功生成结果表格
+2025-12-09 19:05:46.086 | INFO     | __main__:call_backend:40 - 发送请求到后端: http://localhost:8061/score
+2025-12-09 19:05:46.087 | INFO     | __main__:call_backend:41 - 请求数据: {'job_title': '高级数据科学家', 'requirements': '岗位: 高级数据科学家\n要求:\n1. 5年以上数据科学相关经验\n2. 精通Python和机器学习库\n3. 有深度学习项目经验\n4. 良好的沟通能力', 'top_n': 3}
+2025-12-09 19:06:18.438 | INFO     | __main__:call_backend:51 - 后端响应状态码: 200
+2025-12-09 19:06:18.441 | INFO     | __main__:call_backend:65 - 收到 3 个评分结果
+2025-12-09 19:06:18.441 | INFO     | __main__:call_backend:133 - 成功生成结果表格
+2025-12-09 19:56:25.447 | INFO     | __main__:call_backend:40 - 发送请求到后端: http://localhost:8062/score
+2025-12-09 19:56:25.448 | INFO     | __main__:call_backend:41 - 请求数据: {'job_title': '高级数据科学家', 'requirements': '岗位: 高级数据科学家\n要求:\n1. 5年以上数据科学相关经验\n2. 精通Python和机器学习库\n3. 有深度学习项目经验\n4. 良好的沟通能力', 'top_n': 4}
+2025-12-09 19:57:09.427 | INFO     | __main__:call_backend:51 - 后端响应状态码: 200
+2025-12-09 19:57:09.429 | INFO     | __main__:call_backend:65 - 收到 4 个评分结果
+2025-12-09 19:57:09.429 | INFO     | __main__:call_backend:133 - 成功生成结果表格
+2025-12-09 20:01:24.937 | INFO     | __main__:call_backend:40 - 发送请求到后端: http://localhost:8062/score
+2025-12-09 20:01:24.938 | INFO     | __main__:call_backend:41 - 请求数据: {'job_title': '高级数据科学家', 'requirements': '岗位: 高级数据科学家\n要求:\n1. 5年以上数据科学相关经验\n2. 精通Python和机器学习库\n3. 有深度学习项目经验\n4. 良好的沟通能力', 'top_n': 10}
+2025-12-09 20:20:48.516 | INFO     | __main__:call_backend:40 - 发送请求到后端: http://localhost:8063/score
+2025-12-09 20:20:48.517 | INFO     | __main__:call_backend:41 - 请求数据: {'job_title': '高级数据科学家', 'requirements': '岗位: 高级数据科学家\n要求:\n1. 5年以上数据科学相关经验\n2. 精通Python和机器学习库\n3. 有深度学习项目经验\n4. 良好的沟通能力\n5. 熟悉大数据处理技术\n6. 有团队管理经验者优先', 'top_n': 10}
+2025-12-09 20:21:41.346 | INFO     | __main__:call_backend:51 - 后端响应状态码: 200
+2025-12-09 20:21:41.348 | INFO     | __main__:call_backend:65 - 收到 6 个评分结果
+2025-12-09 20:21:41.348 | INFO     | __main__:call_backend:135 - 成功生成结果表格
