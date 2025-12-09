@@ -5,14 +5,19 @@ from pathlib import Path
 from typing import List, Tuple
 import sys
 import os
+import requests
+import json
 
 # 添加rag_system目录到Python路径
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'rag_system'))
 
 # 修复导入路径
-from rag_system.llama_rag_system import SimpleRAG
+try:
+    from rag_system.llama_rag_system import SimpleRAG
+except ImportError:
+    SimpleRAG = None
 
-# 使用项目中的CSV文件
+# 使用项目中的CSV文件或远程数据源
 DATASET_PATH = Path("rag_system/UpdatedResumeDataSet.csv")
 
 # 初始化RAG系统
@@ -21,16 +26,25 @@ rag_system = None
 def init_rag_system():
     """初始化RAG系统"""
     global rag_system
-    if rag_system is None and SimpleRAG is not None:
-        try:
-            if DATASET_PATH.exists():
-                rag_system = SimpleRAG(str(DATASET_PATH))
-                print("RAG系统初始化成功")
-            else:
-                print(f"警告: 数据集文件不存在 {DATASET_PATH}")
-        except Exception as e:
-            print(f"RAG系统初始化失败: {e}")
-            rag_system = None
+    if rag_system is not None:
+        return rag_system
+    
+    # 在Vercel环境中，我们使用简化版本或跳过RAG初始化
+    if os.environ.get("VERCEL") == "1":
+        print("在Vercel环境中，跳过RAG系统初始化")
+        return None
+    
+    try:
+        if DATASET_PATH.exists():
+            rag_system = SimpleRAG(str(DATASET_PATH))
+            print("RAG系统初始化成功")
+        else:
+            print(f"数据文件不存在: {DATASET_PATH}")
+    except Exception as e:
+        print(f"RAG系统初始化失败: {e}")
+        rag_system = None
+    
+    return rag_system
 
 @lru_cache(maxsize=1)
 def load_dataset() -> List[Tuple[str, str]]:
@@ -38,6 +52,16 @@ def load_dataset() -> List[Tuple[str, str]]:
     Load dataset as list of (category, resume_text).
     Cached to avoid re-reading.
     """
+    # 在Vercel环境中，返回空数据集或使用远程数据源
+    if os.environ.get("VERCEL") == "1":
+        # 可以在这里实现从远程API获取数据的逻辑
+        print("在Vercel环境中，返回示例数据")
+        return [
+            ("Data Scientist", "Experienced data scientist with Python, machine learning, and deep learning expertise. 5 years of experience in building predictive models."),
+            ("Software Engineer", "Senior software engineer with expertise in Java, Python, and cloud technologies. 8 years of experience in backend development."),
+            ("Web Developer", "Full-stack web developer with JavaScript, React, and Node.js experience. 4 years of building web applications.")
+        ]
+    
     if not DATASET_PATH.exists():
         return []
     rows: List[Tuple[str, str]] = []
@@ -50,15 +74,30 @@ def load_dataset() -> List[Tuple[str, str]]:
                 rows.append((cat, res))
     return rows
 
-
 def _tokenize(text: str) -> List[str]:
     return re.findall(r"[a-zA-Z0-9]+", text.lower())
-
 
 def search_resumes(query: str, top_k: int = 5) -> List[str]:
     """
     使用RAG系统搜索简历
     """
+    # 在Vercel环境中，使用简化的方法
+    if os.environ.get("VERCEL") == "1":
+        corpus = load_dataset()
+        if not corpus:
+            return []
+        query_tokens = set(_tokenize(query))
+        scored: List[Tuple[float, str]] = []
+        for _, resume in corpus:
+            text_tokens = _tokenize(resume)
+            if not text_tokens:
+                continue
+            overlap = len(query_tokens.intersection(text_tokens))
+            if overlap > 0:
+                scored.append((overlap, resume))
+        scored.sort(key=lambda x: x[0], reverse=True)
+        return [r for _, r in scored[:top_k]]
+    
     # 初始化RAG系统（如果尚未初始化）
     init_rag_system()
     
