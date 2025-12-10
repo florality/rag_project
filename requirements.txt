@@ -24,7 +24,7 @@ langchain-classic==1.0.0a1
 # LlamaIndex相关
 llama-index==0.11.19
 llama-index-llms-openai==0.2.11
-llama-index-embeddings-openai==0.3.10
+llama-index-embeddings-openai==0.3.0
 llama-index-retrievers-bm25==0.3.0
 
 # 向量存储和检索
