@@ -11,6 +11,10 @@ from config import get_config
 from app.service import score_candidate, score_from_dataset  # 更新导入
 from app.port_utils import find_free_port
 
+# 新增：导入 Gradio 并挂载
+import gradio as gr
+from app.frontend import build_demo
+
 class ScoreRequest(BaseModel):
     job_title: str = Field(..., description="岗位名称")
     requirements: str = Field("", description="特定要求/偏好")
@@ -42,6 +46,12 @@ def create_app() -> FastAPI:
     cfg = get_config()
     app = FastAPI(title="简历筛选助手 API", version="0.1.0")  # 修改标题为中文
 
+    # 新增：根路径重定向到前端
+    @app.get("/")
+    async def root():
+        """重定向到前端界面"""
+        return RedirectResponse(url="/gradio")
+        
     @app.get("/health")
     def health():
         return {"status": "正常"}  # 修改为中文
@@ -81,6 +91,10 @@ def create_app() -> FastAPI:
             )
         return ScoreResponse(results=items)
 
+    # 新增：挂载 Gradio 前端
+    gradio_app = build_demo()
+    app = gr.mount_gradio_app(app, gradio_app, path="/gradio")
+    
     return app
 
 
