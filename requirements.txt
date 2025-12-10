@@ -7,17 +7,15 @@ gradio==4.44.0
 python-dotenv==1.2.1
 pandas==2.2.2
 numpy==1.26.4
-# 在Vercel环境中，有条件地安装大型依赖项
-# 如果需要完整的RAG功能，请取消下面的注释
-# langchain==0.3.7
-# langchain-openai==0.2.10
-# langchain-community==0.3.12
-# faiss-cpu==1.9.0
-# sentence-transformers==3.6.1
-# llama-index==0.11.19
-# scikit-learn==1.5.1
-# transformers==4.44.0
-# torch==2.4.0
+langchain==0.3.7
+langchain-openai==0.2.10
+langchain-community==0.3.12
+faiss-cpu==1.9.0
+sentence-transformers==3.6.1
+llama-index==0.11.19
+scikit-learn==1.5.1
+transformers==4.44.0
+torch==2.4.0
 huggingface-hub==0.23.2
 tenacity==8.2.3
 llama-index==0.10.57
@@ -30,3 +28,4 @@ transformers==4.44.0
 torch==2.4.0
 sentence-transformers==3.0.1
 faiss-cpu==1.13.1
+langchain-classic==0.0.10
