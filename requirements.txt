@@ -19,7 +19,7 @@ tenacity==8.2.3
 langchain==0.3.7
 langchain-openai==0.2.10
 langchain-community==0.3.12
-langchain-classic==0.0.10
+langchain-classic==1.0.0a1
 
 # LlamaIndex相关
 llama-index==0.11.19
