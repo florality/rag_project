@@ -86,16 +86,43 @@ def create_app() -> FastAPI:
 
 def run():
     app = create_app()
-    port_start = (
-        int(Path("backend_port.txt").read_text().strip())
-        if Path("backend_port.txt").exists()
-        else 8080
-    )
-    port = find_free_port(port_start)
-    _write_port_file(port)
-    print(f"[后端] 运行在 http://127.0.0.1:{port}")  # 修改为中文
+    # port_start = (
+    #     int(Path("backend_port.txt").read_text().strip())
+    #     if Path("backend_port.txt").exists()
+    #     else 8080
+    # )
+    # port = find_free_port(port_start)
+    # _write_port_file(port)
+    # print(f"[后端] 运行在 http://127.0.0.1:{port}")  # 修改为中文
+    # # 使用同步服务器运行
+    # uvicorn.run(app, host="0.0.0.0", port=port, log_level="info")
+
+
+    # 优先使用 Render 的环境变量 PORT
+    port = int(os.environ.get("PORT", 8000))
+    
+    # 如果 Render 没有提供 PORT，则使用备用端口发现机制
+    if port == 8000:  # 说明是默认值，Render 没有提供 PORT
+        port_start = (
+            int(Path("backend_port.txt").read_text().strip())
+            if Path("backend_port.txt").exists()
+            else 8080
+        )
+        port = find_free_port(port_start)
+        _write_port_file(port)
+    
+    # 修正：绑定到 0.0.0.0 而不是 127.0.0.1
+    host = "0.0.0.0"
+    
+    print(f"[后端] 运行在 http://{host}:{port}")  # 修正显示信息
+    
     # 使用同步服务器运行
-    uvicorn.run(app, host="0.0.0.0", port=port, log_level="info")
+    uvicorn.run(
+        app, 
+        host=host,  # 关键修改：使用 0.0.0.0
+        port=port, 
+        log_level="info"
+    )
 
 
 if __name__ == "__main__":
