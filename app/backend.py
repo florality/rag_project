@@ -46,7 +46,8 @@ def _write_port_file(port: int):
 def create_app() -> FastAPI:
     load_dotenv()
     cfg = get_config()
-    app = FastAPI(title="简历筛选助手 API", version="0.1.0")  # 修改标题为中文
+    # 添加API路由前缀
+    app = FastAPI(title="简历筛选助手 API", version="0.1.0", root_path="/api")
 
     # 新增：根路径重定向到前端
     @app.get("/")
@@ -58,7 +59,7 @@ def create_app() -> FastAPI:
     def health():
         return {"status": "正常"}  # 修改为中文
 
-    # 修改为同步端点
+    # 修改为同步端点，保持原来的路由路径
     @app.post("/score", response_model=ScoreResponse)
     def score(req: ScoreRequest):
         if not cfg.api_key:
