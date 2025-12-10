@@ -12,23 +12,24 @@ from app.port_utils import find_free_port
 # 配置日志
 logger.add("frontend.log", rotation="500 MB")
 
-# 修改：后端URL获取逻辑，适配挂载模式
+# 修改：后端URL获取逻辑，适配Render平台
 def get_backend_url():
-    # 在挂载模式下，使用相对路径调用后端API
-    return "/api"  # 直接返回API前缀
-
-# # 获取后端URL，优先从backend_port.txt文件读取端口
-# def get_backend_url():
-#     # 尝试从backend_port.txt文件读取端口
-#     port_file = Path(__file__).parent.parent / "backend_port.txt"
-#     if port_file.exists():
-#         try:
-#             port = int(port_file.read_text().strip())
-#             return f"http://localhost:{port}"
-#         except Exception:
-#             pass
-#     # 默认端口
-#     return os.getenv("BACKEND_URL", "http://localhost:8000")
+    # 检查是否在Render环境
+    render_url = os.environ.get("RENDER_EXTERNAL_URL")
+    if render_url:
+        # 在Render平台上，返回基础URL（不带/api）
+        return render_url.rstrip('/')  # 确保没有末尾斜杠
+    else:
+        # 本地开发环境或其他环境
+        port_file = Path(__file__).parent.parent / "backend_port.txt"
+        if port_file.exists():
+            try:
+                port = int(port_file.read_text().strip())
+                return f"http://localhost:{port}"
+            except Exception:
+                pass
+        # 默认端口
+        return os.getenv("BACKEND_URL", "http://localhost:8000")
 
 BACKEND_URL = get_backend_url()
 
@@ -42,15 +43,15 @@ def call_backend(job_title: str, requirements: str, top_n: int = 10) -> str:
             "top_n": top_n
         }
         
-        # 修改：使用相对路径调用API
-        api_url = f"{BACKEND_URL}/score"
+        # 构造完整的API URL
+        api_url = f"{BACKEND_URL}/api/score"
         
-        logger.info(f"发送请求到后端: {BACKEND_URL}/score")
+        logger.info(f"发送请求到后端: {api_url}")
         logger.info(f"请求数据: {payload}")
         
         # 发送POST请求到后端
         response = requests.post(
-            f"{BACKEND_URL}/score",
+            api_url,
             json=payload,
             headers={"Content-Type": "application/json"},
             timeout=300  # 5分钟超时
