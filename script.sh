@@ -63,8 +63,8 @@ set -e
 
 cd "$(dirname "$0")"
 
-# 安装依赖
-pip install -r requirements.txt
+# # 安装依赖
+# pip install -r requirements.txt
 
 # 直接启动应用
 python -c "
