@@ -58,28 +58,24 @@
 # echo "[script] tailing logs (Ctrl+C to stop)..."
 # tail -f /tmp/resume_backend.log /tmp/resume_frontend.log
 
-
 #!/usr/bin/env bash
 set -e
 
-ROOT_DIR="$(cd "$(dirname "$0")" && pwd)"
-cd "$ROOT_DIR"
+cd "$(dirname "$0")"
 
-# 设置Python路径
-export PYTHONPATH="$ROOT_DIR:$PYTHONPATH"
+# 安装依赖
+pip install -r requirements.txt
 
-# 激活虚拟环境
-if [ -d "venv" ]; then
-  source venv/bin/activate
-fi
+# 直接启动应用
+python -c "
+import os, uvicorn
+from app.backend import create_app
 
-echo "[script] installing dependencies..."
-pip3 install -r requirements.txt
+app = create_app()
+port = int(os.environ.get('PORT', 8000))
 
-# 使用 Render 提供的端口
-PORT=${PORT:-8000}
-echo "[script] using PORT: $PORT"
+print('🚀 简历筛选系统启动中...')
+print(f'📍 服务地址: http://0.0.0.0:{port}')
 
-# 直接启动后端服务（绑定到 0.0.0.0）
-echo "[script] starting backend on 0.0.0.0:$PORT..."
-python3 -m app.backend --host 0.0.0.0 --port $PORT
+uvicorn.run(app, host='0.0.0.0', port=port)
+"
