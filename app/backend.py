@@ -46,21 +46,21 @@ def _write_port_file(port: int):
 def create_app() -> FastAPI:
     load_dotenv()
     cfg = get_config()
-    # 添加API路由前缀
-    app = FastAPI(title="简历筛选助手 API", version="0.1.0", root_path="/api")
+    # 移除 root_path="/api"，避免影响Gradio挂载
+    app = FastAPI(title="简历筛选助手 API", version="0.1.0")
 
     # 新增：根路径重定向到前端
     @app.get("/")
     async def root():
         """重定向到前端界面"""
-        return RedirectResponse(url="/gradio")
+        return RedirectResponse(url="/gradio/")
         
     @app.get("/health")
     def health():
         return {"status": "正常"}  # 修改为中文
 
-    # 修改为同步端点，保持原来的路由路径
-    @app.post("/score", response_model=ScoreResponse)
+    # 修改为同步端点，将路由改为 /api/score 以匹配前端的调用
+    @app.post("/api/score", response_model=ScoreResponse)
     def score(req: ScoreRequest):
         if not cfg.api_key:
             raise HTTPException(status_code=400, detail="缺少API密钥。")
@@ -94,7 +94,7 @@ def create_app() -> FastAPI:
             )
         return ScoreResponse(results=items)
 
-    # 新增：挂载 Gradio 前端
+    # 新增：挂载 Gradio 前端，确保路径正确
     gradio_app = build_demo()
     app = gr.mount_gradio_app(app, gradio_app, path="/gradio")
     
