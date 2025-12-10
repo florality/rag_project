@@ -1,9 +1,11 @@
 import json
+import os
 from pathlib import Path
 from typing import List, Any
 
 import uvicorn
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import RedirectResponse
 from pydantic import BaseModel, Field
 from dotenv import load_dotenv
 
