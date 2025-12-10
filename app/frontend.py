@@ -12,18 +12,23 @@ from app.port_utils import find_free_port
 # 配置日志
 logger.add("frontend.log", rotation="500 MB")
 
-# 获取后端URL，优先从backend_port.txt文件读取端口
+# 修改：后端URL获取逻辑，适配挂载模式
 def get_backend_url():
-    # 尝试从backend_port.txt文件读取端口
-    port_file = Path(__file__).parent.parent / "backend_port.txt"
-    if port_file.exists():
-        try:
-            port = int(port_file.read_text().strip())
-            return f"http://localhost:{port}"
-        except Exception:
-            pass
-    # 默认端口
-    return os.getenv("BACKEND_URL", "http://localhost:8000")
+    # 在挂载模式下，使用相对路径调用后端API
+    return "/api"  # 直接返回API前缀
+
+# # 获取后端URL，优先从backend_port.txt文件读取端口
+# def get_backend_url():
+#     # 尝试从backend_port.txt文件读取端口
+#     port_file = Path(__file__).parent.parent / "backend_port.txt"
+#     if port_file.exists():
+#         try:
+#             port = int(port_file.read_text().strip())
+#             return f"http://localhost:{port}"
+#         except Exception:
+#             pass
+#     # 默认端口
+#     return os.getenv("BACKEND_URL", "http://localhost:8000")
 
 BACKEND_URL = get_backend_url()
 
@@ -36,6 +41,9 @@ def call_backend(job_title: str, requirements: str, top_n: int = 10) -> str:
             "requirements": requirements,
             "top_n": top_n
         }
+        
+        # 修改：使用相对路径调用API
+        api_url = f"{BACKEND_URL}/score"
         
         logger.info(f"发送请求到后端: {BACKEND_URL}/score")
         logger.info(f"请求数据: {payload}")
@@ -280,16 +288,16 @@ def build_demo():
     
     return demo
 
-# 运行函数
-def run():
-    port_start = 6060
-    port = find_free_port(port_start)
-    # 修正端口文件写入路径，确保在项目根目录下创建文件
-    port_file_path = Path(__file__).parent.parent / "frontend_port.txt"
-    port_file_path.write_text(str(port), encoding="utf-8")
-    print(f"[前端] 运行在 http://127.0.0.1:{port}")
-    demo = build_demo()
-    demo.launch(server_name="0.0.0.0", server_port=port, show_api=False, share=False)
+# # 运行函数
+# def run():
+#     port_start = 6060
+#     port = find_free_port(port_start)
+#     # 修正端口文件写入路径，确保在项目根目录下创建文件
+#     port_file_path = Path(__file__).parent.parent / "frontend_port.txt"
+#     port_file_path.write_text(str(port), encoding="utf-8")
+#     print(f"[前端] 运行在 http://127.0.0.1:{port}")
+#     demo = build_demo()
+#     demo.launch(server_name="0.0.0.0", server_port=port, show_api=False, share=False)
 
-if __name__ == "__main__":
-    run()
+# if __name__ == "__main__":
+#     run()
