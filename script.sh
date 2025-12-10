@@ -58,7 +58,7 @@
 # echo "[script] tailing logs (Ctrl+C to stop)..."
 # tail -f /tmp/resume_backend.log /tmp/resume_frontend.log
 
-#!/usr/bin/env bash
+
 set -e
 
 cd "$(dirname "$0")"
