@@ -11,6 +11,10 @@ from config import get_config
 from app.service import score_candidate, score_from_dataset  # 更新导入
 from app.port_utils import find_free_port
 
+# 新增：导入 Gradio 并挂载
+import gradio as gr
+from app.frontend import build_demo
+
 class ScoreRequest(BaseModel):
     job_title: str = Field(..., description="岗位名称")
     requirements: str = Field("", description="特定要求/偏好")
@@ -42,6 +46,12 @@ def create_app() -> FastAPI:
     cfg = get_config()
     app = FastAPI(title="简历筛选助手 API", version="0.1.0")  # 修改标题为中文
 
+    # 新增：根路径重定向到前端
+    @app.get("/")
+    async def root():
+        """重定向到前端界面"""
+        return RedirectResponse(url="/gradio")
+        
     @app.get("/health")
     def health():
         return {"status": "正常"}  # 修改为中文
@@ -81,21 +91,52 @@ def create_app() -> FastAPI:
             )
         return ScoreResponse(results=items)
 
+    # 新增：挂载 Gradio 前端
+    gradio_app = build_demo()
+    app = gr.mount_gradio_app(app, gradio_app, path="/gradio")
+    
     return app
 
 
 def run():
     app = create_app()
-    port_start = (
-        int(Path("backend_port.txt").read_text().strip())
-        if Path("backend_port.txt").exists()
-        else 8080
-    )
-    port = find_free_port(port_start)
-    _write_port_file(port)
-    print(f"[后端] 运行在 http://127.0.0.1:{port}")  # 修改为中文
+    # port_start = (
+    #     int(Path("backend_port.txt").read_text().strip())
+    #     if Path("backend_port.txt").exists()
+    #     else 8080
+    # )
+    # port = find_free_port(port_start)
+    # _write_port_file(port)
+    # print(f"[后端] 运行在 http://127.0.0.1:{port}")  # 修改为中文
+    # # 使用同步服务器运行
+    # uvicorn.run(app, host="0.0.0.0", port=port, log_level="info")
+
+
+    # 优先使用 Render 的环境变量 PORT
+    port = int(os.environ.get("PORT", 8000))
+    
+    # 如果 Render 没有提供 PORT，则使用备用端口发现机制
+    if port == 8000:  # 说明是默认值，Render 没有提供 PORT
+        port_start = (
+            int(Path("backend_port.txt").read_text().strip())
+            if Path("backend_port.txt").exists()
+            else 8080
+        )
+        port = find_free_port(port_start)
+        _write_port_file(port)
+    
+    # 修正：绑定到 0.0.0.0 而不是 127.0.0.1
+    host = "0.0.0.0"
+    
+    print(f"[后端] 运行在 http://{host}:{port}")  # 修正显示信息
+    
     # 使用同步服务器运行
-    uvicorn.run(app, host="0.0.0.0", port=port, log_level="info")
+    uvicorn.run(
+        app, 
+        host=host,  # 关键修改：使用 0.0.0.0
+        port=port, 
+        log_level="info"
+    )
 
 
 if __name__ == "__main__":
