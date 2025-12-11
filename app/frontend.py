@@ -33,6 +33,39 @@ def get_backend_url():
 
 BACKEND_URL = get_backend_url()
 
+# 预设岗位模板
+JOB_TEMPLATES = {
+    "": "请选择或输入自定义岗位...",
+    "高级数据科学家": """岗位: 高级数据科学家
+要求:
+1. 5年以上数据科学相关经验
+2. 精通Python和机器学习库（如scikit-learn, TensorFlow, PyTorch）
+3. 有深度学习项目经验，熟悉CNN、RNN等模型
+4. 良好的沟通能力和团队协作精神
+5. 熟悉大数据处理技术（如Spark, Hadoop）
+6. 有团队管理经验者优先""",
+    "产品经理": """岗位: 产品经理
+要求:
+1. 3年以上产品管理经验，有成功产品案例
+2. 熟悉产品生命周期管理，能独立负责产品规划
+3. 具备良好的市场洞察力和用户需求分析能力
+4. 熟练使用Axure、Figma等原型设计工具
+5. 具备优秀的沟通协调能力，能有效推动跨部门合作
+6. 有互联网或科技行业背景优先""",
+    "前端工程师": """岗位: 前端工程师
+要求:
+1. 3年以上前端开发经验，精通Vue.js或React框架
+2. 熟练掌握HTML5、CSS3、JavaScript(ES6+)
+3. 有响应式设计和移动端开发经验
+4. 熟悉Webpack等构建工具和npm生态系统
+5. 了解前端性能优化和浏览器兼容性处理
+6. 有良好的代码规范意识和团队协作能力"""
+}
+
+def update_requirements(job_title):
+    """根据选择的岗位模板更新岗位要求"""
+    return JOB_TEMPLATES.get(job_title, "")
+
 def call_backend(job_title: str, requirements: str, top_n: int = 10) -> str:
     """调用后端API获取评分结果"""
     try:
@@ -73,6 +106,15 @@ def call_backend(job_title: str, requirements: str, top_n: int = 10) -> str:
 
             logger.info(f"收到 {len(results)} 个评分结果")
             
+            # 检查是否有结果
+            if not results:
+                return """
+                <div style="text-align: center; padding: 40px; color: #666;">
+                    <h3>🔍 未找到匹配的候选人</h3>
+                    <p>请尝试调整岗位要求或增加候选人数量</p>
+                </div>
+                """
+            
             # 构建展示用的HTML表格
             html = """
             <div style="font-family: Arial, sans-serif;">
@@ -86,6 +128,7 @@ def call_backend(job_title: str, requirements: str, top_n: int = 10) -> str:
                                 <th style="text-align: left; width: 100px;">经验年限</th>
                                 <th style="text-align: left; width: 200px;">核心技能</th>
                                 <th style="text-align: left;">评分理由</th>
+                                <th style="text-align: left; width: 120px;">操作</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -131,6 +174,10 @@ def call_backend(job_title: str, requirements: str, top_n: int = 10) -> str:
                         <td>{years_experience}</td>
                         <td>{core_skills}</td>
                         <td>{reasoning}</td>
+                        <td>
+                            <button style="margin-right: 5px; padding: 2px 6px; font-size: 12px;">查看详情</button>
+                            <button style="padding: 2px 6px; font-size: 12px;">标记</button>
+                        </td>
                     </tr>
                 """
             
@@ -157,24 +204,32 @@ def call_backend(job_title: str, requirements: str, top_n: int = 10) -> str:
 def build_demo():
     """构建Gradio演示界面"""
     with gr.Blocks(title="智能简历筛选系统", theme=gr.themes.Soft()) as demo:
-        # 标题
+        # 标题（增大字号并加重字重）
         gr.Markdown("""
-        # 📄 智能简历筛选系统
-        **输入岗位名称和要求，系统将自动为您筛选最匹配的候选人。**
+        # <span style="font-size: 24px; font-weight: 600;">📄 智能简历筛选系统</span>
+        **<span style="font-size: 16px;">输入岗位名称和要求，系统将自动为您筛选最匹配的候选人。</span>**
         """)
         
-        # 第一行：两个卡片并列布局
+        # 第一行：两个卡片并列布局（添加浅色背景卡片样式）
         with gr.Row():
             # 卡片1：岗位基本信息和操作（左侧）
             with gr.Column(scale=1):
-                with gr.Group():
-                    gr.Markdown("### 📋 岗位信息")
+                with gr.Group(elem_classes=["job-card"]):
+                    gr.Markdown("### 📋 岗位信息", elem_classes=["card-title"])
                     job_title = gr.Textbox(
                         label="岗位名称",
                         placeholder="例如：高级数据科学家",
                         value="高级数据科学家",
                         lines=1
                     )
+                    
+                    # 添加预设岗位模板下拉菜单
+                    template_dropdown = gr.Dropdown(
+                        choices=list(JOB_TEMPLATES.keys()),
+                        label="从常用岗位中选择",
+                        value=""
+                    )
+                    
                     with gr.Row():
                         top_n = gr.Slider(
                             minimum=1,
@@ -183,19 +238,24 @@ def build_demo():
                             step=1,
                             label="返回候选人数量"
                         )
+                        # 添加数字显示
+                        top_n_number = gr.Number(value=10, label="", precision=0, interactive=False, 
+                                                elem_classes=["slider-number"])
+                    
                     submit_btn = gr.Button(
                         "🚀 开始筛选", 
                         variant="primary",
-                        size="lg"
+                        size="lg",
+                        elem_classes=["submit-btn"]
                     )
             
-            # 卡片2：岗位要求（右侧）
+            # 卡片2：岗位要求（右侧）（改为可编辑的文本域）
             with gr.Column(scale=2):
-                with gr.Group():
-                    gr.Markdown("### 📝 详细岗位要求")
-                    requirements = gr.Textbox(
-                        label="请详细描述岗位要求和职责",
-                        placeholder="例如：\n1. 5年以上数据科学相关经验\n2. 精通Python和机器学习库\n3. 有深度学习项目经验\n4. 良好的沟通能力",
+                with gr.Group(elem_classes=["requirements-card"]):
+                    gr.Markdown("### 📝 详细岗位要求", elem_classes=["card-title"])
+                    requirements = gr.TextArea(
+                        label="请在此输入或编辑岗位要求：",
+                        placeholder="请在此输入或编辑岗位要求...",
                         value="""岗位: 高级数据科学家
 要求:
 1. 5年以上数据科学相关经验
@@ -207,66 +267,79 @@ def build_demo():
                         lines=12
                     )
         
-        # 第二行：筛选结果展示
+        # 第二行：筛选结果展示（添加空状态设计）
         with gr.Row():
             with gr.Column():
-                gr.Markdown("### 📊 筛选结果")
+                gr.Markdown("### 📊 筛选结果", elem_classes=["section-title"])
                 output = gr.HTML(
                     label="匹配候选人列表",
-                    value="<div style='padding: 20px; text-align: center; color: #666;'>等待筛选结果...</div>"
+                    value="<div style='padding: 40px; text-align: center; color: #666;'><h3>📋 暂无筛选结果，请填写岗位信息并开始筛选。</h3><p>填写岗位信息后，点击\"开始筛选\"按钮获取匹配结果</p></div>",
+                    elem_classes=["results-container"]
                 )
         
-        # 第三行：使用说明和结果说明（字体缩小为原来的一半）
+        # 第三行：使用说明和结果说明（字体缩小为原来的一半，添加图标）
         with gr.Row():
             # 左侧：使用说明
             with gr.Column(scale=1):
-                with gr.Group():
-                    gr.Markdown("### 📖 使用说明")
+                with gr.Group(elem_classes=["instructions-card"]):
+                    gr.Markdown("### 📖 使用说明", elem_classes=["card-title"])
                     gr.Markdown("""
-                    <div style="font-size: 8px; line-height: 1.4;">
-                    <strong>第一步</strong>：填写岗位名称
-                    - 例如：高级数据科学家、前端开发工程师等
+                    <div style="font-size: 12px; line-height: 1.6;">
+                    <strong>1. 填写岗位信息</strong>
+                    <ul>
+                        <li>输入岗位名称或从预设模板中选择</li>
+                        <li>设置需要返回的候选人数量</li>
+                    </ul>
                     
-                    <strong>第二步</strong>：设置筛选数量
-                    - 滑动选择需要返回的候选人数量
-                    - 范围：1-50人
+                    <strong>2. 编辑岗位要求</strong>
+                    <ul>
+                        <li>详细描述岗位技能要求</li>
+                        <li>列出工作职责和经验要求</li>
+                    </ul>
                     
-                    <strong>第三步</strong>：详细描述岗位要求
-                    - 列出具体的技能要求
-                    - 描述工作职责
-                    - 说明经验要求
-                    
-                    <strong>第四步</strong>：开始筛选
-                    - 点击"开始筛选"按钮
-                    - 系统将自动匹配最佳候选人
+                    <strong>3. 开始筛选</strong>
+                    <ul>
+                        <li>点击"开始筛选"按钮</li>
+                        <li>系统将智能分析并匹配候选人</li>
+                    </ul>
                     </div>
                     """)
             
             # 右侧：结果说明
             with gr.Column(scale=1):
-                with gr.Group():
-                    gr.Markdown("### 📈 结果解读")
+                with gr.Group(elem_classes=["interpretation-card"]):
+                    gr.Markdown("### 📈 结果解读", elem_classes=["card-title"])
                     gr.Markdown("""
-                    <div style="font-size: 8px; line-height: 1.4;">
+                    <div style="font-size: 12px; line-height: 1.6;">
                     <strong>人才编号</strong>
-                    - 候选人在人才库中的唯一标识符
-                    - 可用于后续联系和跟进
+                    <ul>
+                        <li>候选人在人才库中的唯一标识符</li>
+                        <li>可用于后续联系和跟进</li>
+                    </ul>
                     
                     <strong>综合得分</strong>
-                    - 得分越高表示匹配度越高
-                    - 基于大模型综合评估生成
+                    <ul>
+                        <li>得分越高表示匹配度越高</li>
+                        <li>基于大模型综合评估生成</li>
+                    </ul>
                     
                     <strong>工作经验</strong>
-                    - 候选人的相关工作经验年限
-                    - 自动从简历中提取
+                    <ul>
+                        <li>候选人的相关工作经验年限</li>
+                        <li>自动从简历中提取</li>
+                    </ul>
                     
                     <strong>核心技能匹配</strong>
-                    - 候选人具备的核心技能
-                    - 重点展示与岗位相关的技能
+                    <ul>
+                        <li>候选人具备的核心技能</li>
+                        <li>重点展示与岗位相关的技能</li>
+                    </ul>
                     
                     <strong>评分理由</strong>
-                    - 系统生成的评估依据
-                    - 解释候选人得分的具体原因
+                    <ul>
+                        <li>系统生成的评估依据</li>
+                        <li>解释候选人得分的具体原因</li>
+                    </ul>
                     </div>
                     """)
         
@@ -282,8 +355,23 @@ def build_demo():
                 elem_id="footer"
             )
         
+        # 绑定事件
+        # 滑块与数字显示联动
+        top_n.change(fn=lambda x: x, inputs=top_n, outputs=top_n_number)
+        
+        # 预设模板下拉菜单事件
+        template_dropdown.change(
+            fn=update_requirements,
+            inputs=template_dropdown,
+            outputs=requirements
+        )
+        
         # 设置按钮点击事件
         submit_btn.click(
+            fn=lambda *args: "<div style='padding: 20px; text-align: center;'><h3>🤖 正在智能分析简历，请稍候…</h3><p>这可能需要一些时间，请耐心等待</p></div>",
+            inputs=[],
+            outputs=output
+        ).then(
             fn=call_backend,
             inputs=[job_title, requirements, top_n],
             outputs=output
