@@ -394,36 +394,6 @@ def build_demo():
                     </div>
                     """)
 
-                    # 调整标题行布局，将帮助图标放在右上角
-                    with gr.Row():
-                        with gr.Column(scale=1):
-                            gr.Markdown("### 📊 筛选结果")
-                        with gr.Column(scale=0, elem_classes=["help-icon-container"]):
-                            # 结果解读帮助图标
-                            gr.Markdown("""
-                            <div class="tooltip">
-                                <span class="help-icon">?</span>
-                                <span class="tooltiptext">
-                                    <strong>结果解读：</strong><br>
-                                    <strong>人才编号</strong><br>
-                                    &nbsp;&nbsp;• 候选人在人才库中的唯一标识符<br>
-                                    &nbsp;&nbsp;• 可用于后续联系和跟进<br><br>
-                                    <strong>综合得分</strong><br>
-                                    &nbsp;&nbsp;• 得分越高表示匹配度越高<br>
-                                    &nbsp;&nbsp;• 基于大模型综合评估生成<br><br>
-                                    <strong>工作经验</strong><br>
-                                    &nbsp;&nbsp;• 候选人的相关工作经验年限<br>
-                                    &nbsp;&nbsp;• 自动从简历中提取<br><br>
-                                    <strong>核心技能匹配</strong><br>
-                                    &nbsp;&nbsp;• 候选人具备的核心技能<br>
-                                    &nbsp;&nbsp;• 重点展示与岗位相关的技能<br><br>
-                                    <strong>评分理由</strong><br>
-                                    &nbsp;&nbsp;• 系统生成的评估依据<br>
-                                    &nbsp;&nbsp;• 解释候选人得分的具体原因
-                                </span>
-                            </div>
-                            """)
-
         # 第二行：筛选结果展示
         with gr.Row():
             with gr.Column():
