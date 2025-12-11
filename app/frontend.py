@@ -154,7 +154,6 @@ def call_backend(job_title: str, requirements: str, top_n: int = 10) -> str:
         return f"<p style='color: red;'>错误: {error_msg}</p>"
 
 # 构建Gradio界面
-# 构建Gradio界面
 def build_demo():
     """构建Gradio演示界面"""
     with gr.Blocks(title="智能简历筛选系统", theme=gr.themes.Soft()) as demo:
@@ -164,10 +163,10 @@ def build_demo():
         **输入岗位名称和要求，系统将自动为您筛选最匹配的候选人。**
         """)
         
-        # 第一行：两个卡片布局
+        # 第一行：两个卡片并列布局
         with gr.Row():
-            # 卡片1：岗位基本信息和操作
-            with gr.Column(scale=1, min_width=300):
+            # 卡片1：岗位基本信息和操作（左侧）
+            with gr.Column(scale=1):
                 with gr.Group():
                     gr.Markdown("### 📋 岗位信息")
                     job_title = gr.Textbox(
@@ -187,12 +186,11 @@ def build_demo():
                     submit_btn = gr.Button(
                         "🚀 开始筛选", 
                         variant="primary",
-                        size="lg",
-                        scale=1
+                        size="lg"
                     )
             
-            # 卡片2：岗位要求
-            with gr.Column(scale=2, min_width=500):
+            # 卡片2：岗位要求（右侧）
+            with gr.Column(scale=2):
                 with gr.Group():
                     gr.Markdown("### 📝 详细岗位要求")
                     requirements = gr.Textbox(
@@ -218,28 +216,30 @@ def build_demo():
                     value="<div style='padding: 20px; text-align: center; color: #666;'>等待筛选结果...</div>"
                 )
         
-        # 第三行：使用说明和结果说明
+        # 第三行：使用说明和结果说明（字体缩小为原来的一半）
         with gr.Row():
             # 左侧：使用说明
             with gr.Column(scale=1):
                 with gr.Group():
                     gr.Markdown("### 📖 使用说明")
                     gr.Markdown("""
-                    **第一步**：填写岗位名称
+                    <div style="font-size: 8px; line-height: 1.4;">
+                    <strong>第一步</strong>：填写岗位名称
                     - 例如：高级数据科学家、前端开发工程师等
                     
-                    **第二步**：设置筛选数量
+                    <strong>第二步</strong>：设置筛选数量
                     - 滑动选择需要返回的候选人数量
                     - 范围：1-50人
                     
-                    **第三步**：详细描述岗位要求
+                    <strong>第三步</strong>：详细描述岗位要求
                     - 列出具体的技能要求
                     - 描述工作职责
                     - 说明经验要求
                     
-                    **第四步**：开始筛选
+                    <strong>第四步</strong>：开始筛选
                     - 点击"开始筛选"按钮
                     - 系统将自动匹配最佳候选人
+                    </div>
                     """)
             
             # 右侧：结果说明
@@ -247,25 +247,27 @@ def build_demo():
                 with gr.Group():
                     gr.Markdown("### 📈 结果解读")
                     gr.Markdown("""
-                    **人才编号**
+                    <div style="font-size: 8px; line-height: 1.4;">
+                    <strong>人才编号</strong>
                     - 候选人在人才库中的唯一标识符
                     - 可用于后续联系和跟进
                     
-                    **综合得分**
+                    <strong>综合得分</strong>
                     - 得分越高表示匹配度越高
                     - 基于大模型综合评估生成
                     
-                    **工作经验**
+                    <strong>工作经验</strong>
                     - 候选人的相关工作经验年限
                     - 自动从简历中提取
                     
-                    **核心技能匹配**
+                    <strong>核心技能匹配</strong>
                     - 候选人具备的核心技能
                     - 重点展示与岗位相关的技能
                     
-                    **评分理由**
+                    <strong>评分理由</strong>
                     - 系统生成的评估依据
                     - 解释候选人得分的具体原因
+                    </div>
                     """)
         
         # 页脚信息

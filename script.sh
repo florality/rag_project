@@ -67,7 +67,7 @@ cd "$(dirname "$0")"
 # pip install -r requirements.txt
 
 # 直接启动应用
-python -c "
+python3 -c "
 import os, uvicorn
 from app.backend import create_app
 
