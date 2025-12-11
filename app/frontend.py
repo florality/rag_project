@@ -206,7 +206,7 @@ def build_demo():
     """构建Gradio演示界面"""
     with gr.Blocks(title="智能简历筛选系统", theme=gr.themes.Soft()) as demo:
         # 添加自定义CSS样式
-        demo.load(None, None, None, _js="""
+        demo.load(None, None, None, js="""
         () => {
             const style = document.createElement('style');
             style.textContent = `
