@@ -427,11 +427,6 @@ def build_demo():
                         </span>
                     </div>
                     """)
-
-                    output = gr.HTML(
-                        label="匹配候选人列表",
-                        value="<div style='padding: 40px; text-align: center; color: #666;'><h3>📋 暂无筛选结果，请填写岗位信息并开始筛选。</h3><p>填写岗位信息后，点击\"开始筛选\"按钮获取匹配结果</p></div>"
-                    )
         
         # 移除了底部的使用说明和结果解读长文本
         
