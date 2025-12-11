@@ -175,13 +175,8 @@ def call_backend(job_title: str, requirements: str, top_n: int = 10) -> str:
                         <td>{core_skills}</td>
                         <td>{reasoning}</td>
                     </tr>
-                        <td>
-                            <button style="margin-right: 5px; padding: 4px 8px; font-size: 12px; background-color: #4F8BF9; color: white; border: none; border-radius: 4px; cursor: pointer;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">查看详情</button>
-                            <button style="padding: 4px 8px; font-size: 12px; background-color: #f0f0f0; color: #333; border: none; border-radius: 4px; cursor: pointer;" onmouseover="this.style.backgroundColor='#e0e0e0'" onmouseout="this.style.backgroundColor='#f0f0f0'">标记</button>
-                        </td>
-                    </tr>
                 """
-            
+
             html += """
                         </tbody>
                     </table>
@@ -342,11 +337,18 @@ def build_demo():
                             <span class="help-icon">?</span>
                             <span class="tooltiptext">
                                 <strong>使用说明：</strong><br>
-                                1. 填写岗位信息<br>
-                                2. 设置需要返回的候选人数量<br>
-                                3. 详细描述岗位技能要求<br>
-                                4. 点击"开始筛选"按钮<br>
-                                5. 系统将智能分析并匹配候选人
+                                <strong>1. 填写岗位信息</strong><br>
+                                &nbsp;&nbsp;• 输入岗位名称<br>
+                                &nbsp;&nbsp;• 设置需要返回的候选人数量<br><br>
+                                <strong>2. 编辑岗位要求</strong><br>
+                                &nbsp;&nbsp;• 详细描述岗位技能要求<br>
+                                &nbsp;&nbsp;• 列出工作职责和经验要求<br><br>
+                                <strong>3. 开始筛选</strong><br>
+                                &nbsp;&nbsp;• 点击"开始筛选"按钮<br>
+                                &nbsp;&nbsp;• 系统将智能分析并匹配候选人<br><br>
+                                <strong>4. 查看结果</strong><br>
+                                &nbsp;&nbsp;• 查看系统返回的候选人列表<br>
+                                &nbsp;&nbsp;• 根据综合得分排序
                             </span>
                         </div>
                         """)
@@ -357,11 +359,21 @@ def build_demo():
                             <span class="help-icon">?</span>
                             <span class="tooltiptext">
                                 <strong>结果解读：</strong><br>
-                                <strong>人才编号</strong> - 候选人在人才库中的唯一标识符<br>
-                                <strong>综合得分</strong> - 得分越高表示匹配度越高<br>
-                                <strong>工作经验</strong> - 候选人的相关工作经验年限<br>
-                                <strong>核心技能匹配</strong> - 候选人具备的核心技能<br>
-                                <strong>评分理由</strong> - 系统生成的评估依据
+                                <strong>人才编号</strong><br>
+                                &nbsp;&nbsp;• 候选人在人才库中的唯一标识符<br>
+                                &nbsp;&nbsp;• 可用于后续联系和跟进<br><br>
+                                <strong>综合得分</strong><br>
+                                &nbsp;&nbsp;• 得分越高表示匹配度越高<br>
+                                &nbsp;&nbsp;• 基于大模型综合评估生成<br><br>
+                                <strong>工作经验</strong><br>
+                                &nbsp;&nbsp;• 候选人的相关工作经验年限<br>
+                                &nbsp;&nbsp;• 自动从简历中提取<br><br>
+                                <strong>核心技能匹配</strong><br>
+                                &nbsp;&nbsp;• 候选人具备的核心技能<br>
+                                &nbsp;&nbsp;• 重点展示与岗位相关的技能<br><br>
+                                <strong>评分理由</strong><br>
+                                &nbsp;&nbsp;• 系统生成的评估依据<br>
+                                &nbsp;&nbsp;• 解释候选人得分的具体原因
                             </span>
                         </div>
                         """)
