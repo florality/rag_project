@@ -222,8 +222,41 @@ def build_demo():
                     text-align: center;
                     line-height: 20px;
                     cursor: pointer;
-                    margin-left: 10px;
                     font-weight: bold;
+                    float: right;  /* 让图标浮动到右侧 */
+                }
+                .help-icon:hover {
+                    background-color: #3a76e0;
+                }
+                .tooltip {
+                    position: relative;
+                    display: inline-block;
+                    width: 100%;
+                }
+                .tooltip .tooltiptext {
+                    visibility: hidden;
+                    width: 300px;
+                    background-color: #555;
+                    color: #fff;
+                    text-align: left;
+                    border-radius: 6px;
+                    padding: 10px;
+                    position: absolute;
+                    z-index: 1000;
+                    bottom: 125%;
+                    right: 0;
+                    margin-left: 0;
+                    opacity: 0;
+                    transition: opacity 0.3s;
+                    font-size: 14px;
+                    font-weight: normal;
+                    pointer-events: none;
+                }
+                .tooltip:hover .tooltiptext {
+                    visibility: visible;
+                    opacity: 1;
+                }
+                margin-left: 10px;
                 }
                 .help-icon:hover {
                     background-color: #3a76e0;
@@ -269,6 +302,20 @@ def build_demo():
         }
         """)
         
+        # 添加额外的CSS样式来确保帮助图标正确显示在右上角
+        style = """
+        <style>
+            .help-icon-container {
+                display: flex;
+                justify-content: flex-end;
+                align-items: flex-start;
+                padding-top: 10px;
+            }
+        </style>
+        """
+        # 将样式注入到页面中
+        gr.Markdown(style)
+
         # 标题
         gr.Markdown("""
         # 📄 智能简历筛选系统
@@ -309,7 +356,32 @@ def build_demo():
             # 卡片2：岗位要求（右侧）
             with gr.Column(scale=2):
                 with gr.Group(elem_classes=["card"]):
-                    gr.Markdown("### 📝 详细岗位要求")
+                    # 调整标题行布局，将帮助图标放在右上角
+                    with gr.Row():
+                        with gr.Column(scale=1):
+                            gr.Markdown("### 📝 详细岗位要求")
+                        with gr.Column(scale=0, elem_classes=["help-icon-container"]):
+                            # 使用说明帮助图标
+                            gr.Markdown("""
+                            <div class="tooltip">
+                                <span class="help-icon">?</span>
+                                <span class="tooltiptext">
+                                    <strong>使用说明：</strong><br>
+                                    <strong>1. 填写岗位信息</strong><br>
+                                    &nbsp;&nbsp;• 输入岗位名称<br>
+                                    &nbsp;&nbsp;• 设置需要返回的候选人数量<br><br>
+                                    <strong>2. 编辑岗位要求</strong><br>
+                                    &nbsp;&nbsp;• 详细描述岗位技能要求<br>
+                                    &nbsp;&nbsp;• 列出工作职责和经验要求<br><br>
+                                    <strong>3. 开始筛选</strong><br>
+                                    &nbsp;&nbsp;• 点击"开始筛选"按钮<br>
+                                    &nbsp;&nbsp;• 系统将智能分析并匹配候选人<br><br>
+                                    <strong>4. 查看结果</strong><br>
+                                    &nbsp;&nbsp;• 查看系统返回的候选人列表<br>
+                                    &nbsp;&nbsp;• 根据综合得分排序
+                                </span>
+                            </div>
+                            """)
                     requirements = gr.TextArea(
                         label="请详细描述岗位要求和职责",
                         placeholder="例如：\n1. 5年以上数据科学相关经验\n2. 精通Python和机器学习库\n3. 有深度学习项目经验\n4. 良好的沟通能力",
@@ -328,56 +400,36 @@ def build_demo():
         with gr.Row():
             with gr.Column():
                 with gr.Group(elem_classes=["card"]):
-                    # 添加帮助图标和浮层提示
+                    # 调整标题行布局，将帮助图标放在右上角
                     with gr.Row():
-                        gr.Markdown("### 📊 筛选结果")
-                        # 使用说明帮助图标
-                        gr.Markdown("""
-                        <div class="tooltip">
-                            <span class="help-icon">?</span>
-                            <span class="tooltiptext">
-                                <strong>使用说明：</strong><br>
-                                <strong>1. 填写岗位信息</strong><br>
-                                &nbsp;&nbsp;• 输入岗位名称<br>
-                                &nbsp;&nbsp;• 设置需要返回的候选人数量<br><br>
-                                <strong>2. 编辑岗位要求</strong><br>
-                                &nbsp;&nbsp;• 详细描述岗位技能要求<br>
-                                &nbsp;&nbsp;• 列出工作职责和经验要求<br><br>
-                                <strong>3. 开始筛选</strong><br>
-                                &nbsp;&nbsp;• 点击"开始筛选"按钮<br>
-                                &nbsp;&nbsp;• 系统将智能分析并匹配候选人<br><br>
-                                <strong>4. 查看结果</strong><br>
-                                &nbsp;&nbsp;• 查看系统返回的候选人列表<br>
-                                &nbsp;&nbsp;• 根据综合得分排序
-                            </span>
-                        </div>
-                        """)
-                        
-                        # 结果解读帮助图标
-                        gr.Markdown("""
-                        <div class="tooltip">
-                            <span class="help-icon">?</span>
-                            <span class="tooltiptext">
-                                <strong>结果解读：</strong><br>
-                                <strong>人才编号</strong><br>
-                                &nbsp;&nbsp;• 候选人在人才库中的唯一标识符<br>
-                                &nbsp;&nbsp;• 可用于后续联系和跟进<br><br>
-                                <strong>综合得分</strong><br>
-                                &nbsp;&nbsp;• 得分越高表示匹配度越高<br>
-                                &nbsp;&nbsp;• 基于大模型综合评估生成<br><br>
-                                <strong>工作经验</strong><br>
-                                &nbsp;&nbsp;• 候选人的相关工作经验年限<br>
-                                &nbsp;&nbsp;• 自动从简历中提取<br><br>
-                                <strong>核心技能匹配</strong><br>
-                                &nbsp;&nbsp;• 候选人具备的核心技能<br>
-                                &nbsp;&nbsp;• 重点展示与岗位相关的技能<br><br>
-                                <strong>评分理由</strong><br>
-                                &nbsp;&nbsp;• 系统生成的评估依据<br>
-                                &nbsp;&nbsp;• 解释候选人得分的具体原因
-                            </span>
-                        </div>
-                        """)
-                    
+                        with gr.Column(scale=1):
+                            gr.Markdown("### 📊 筛选结果")
+                        with gr.Column(scale=0, elem_classes=["help-icon-container"]):
+                            # 结果解读帮助图标
+                            gr.Markdown("""
+                            <div class="tooltip">
+                                <span class="help-icon">?</span>
+                                <span class="tooltiptext">
+                                    <strong>结果解读：</strong><br>
+                                    <strong>人才编号</strong><br>
+                                    &nbsp;&nbsp;• 候选人在人才库中的唯一标识符<br>
+                                    &nbsp;&nbsp;• 可用于后续联系和跟进<br><br>
+                                    <strong>综合得分</strong><br>
+                                    &nbsp;&nbsp;• 得分越高表示匹配度越高<br>
+                                    &nbsp;&nbsp;• 基于大模型综合评估生成<br><br>
+                                    <strong>工作经验</strong><br>
+                                    &nbsp;&nbsp;• 候选人的相关工作经验年限<br>
+                                    &nbsp;&nbsp;• 自动从简历中提取<br><br>
+                                    <strong>核心技能匹配</strong><br>
+                                    &nbsp;&nbsp;• 候选人具备的核心技能<br>
+                                    &nbsp;&nbsp;• 重点展示与岗位相关的技能<br><br>
+                                    <strong>评分理由</strong><br>
+                                    &nbsp;&nbsp;• 系统生成的评估依据<br>
+                                    &nbsp;&nbsp;• 解释候选人得分的具体原因
+                                </span>
+                            </div>
+                            """)
+
                     output = gr.HTML(
                         label="匹配候选人列表",
                         value="<div style='padding: 40px; text-align: center; color: #666;'><h3>📋 暂无筛选结果，请填写岗位信息并开始筛选。</h3><p>填写岗位信息后，点击\"开始筛选\"按钮获取匹配结果</p></div>"
